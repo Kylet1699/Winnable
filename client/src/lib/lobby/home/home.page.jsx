@@ -136,7 +136,7 @@ function CreateLobbyModal() {
             </div>
             <DialogFooter>
               <Button className="mt-4" type="submit">
-                Save changes
+                Create Lobby
               </Button>
             </DialogFooter>
           </form>
