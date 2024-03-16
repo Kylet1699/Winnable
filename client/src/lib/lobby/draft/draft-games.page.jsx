@@ -1,63 +1,76 @@
-import React from 'react';
-export function DraftMembersPage()
- {
+import React from "react";
+export function DraftGamesPage() {
   return (
-    <div className="flex flex-col min-h-screen p-4 bg-gray-900">
+    <div className="flex min-h-screen flex-col bg-gray-900 p-4">
       <div className="flex flex-1">
         {/* Sidebar for game search */}
         <div className="w-1/4 p-2">
           <input
             type="text"
             placeholder="Search Game"
-            className="w-full p-2 mb-2 rounded bg-gray-800"
+            className="mb-2 w-full rounded bg-gray-800 p-2"
           />
           <textarea
             placeholder="Description/Rules"
-            className="w-full p-2 mb-2 rounded h-52 bg-gray-800"
+            className="mb-2 h-52 w-full rounded bg-gray-800 p-2"
           ></textarea>
-          <button className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+          <button className="w-full rounded bg-blue-500 p-2 text-white hover:bg-blue-600">
             Confirm
           </button>
         </div>
 
         {/* Selected games and members list */}
-        <div className="flex flex-1 flex-col md:flex-row p-2">
-          <div className="flex-1 m-2">
-            <h2 className="text-lg font-semibold bg-gray-800 rounded mb-2">Selected Games</h2>
-            <div className="flex justify-between bg-gray-800 rounded mb-2 items-center">
+        <div className="flex flex-1 flex-col p-2 md:flex-row">
+          <div className="m-2 flex-1">
+            <h2 className="mb-2 rounded bg-gray-800 text-lg font-semibold">
+              Selected Games
+            </h2>
+            <div className="mb-2 flex items-center justify-between rounded bg-gray-800">
               <h3>Games Team 1</h3>
               <span className="text-sm">3/10</span>
             </div>
             {/* Placeholder for selected games for Team 1 */}
-            <div className="flex flex-wrap p-2 rounded bg-gray-800 mb-4">
+            <div className="mb-4 flex flex-wrap rounded bg-gray-800 p-2">
               {/* Mockup of game slots */}
-              <div className="w-1/4 h-10 bg-pink-300 m-1 rounded flex justify-center items-center">Game 1</div>
-              <div className="w-1/4 h-10 bg-pink-300 m-1 rounded flex justify-center items-center">Game 2</div>
-              <div className="w-1/4 h-10 bg-pink-300 m-1 rounded flex justify-center items-center">Game 3</div>
-             
+              <div className="m-1 flex h-10 w-1/4 items-center justify-center rounded bg-pink-300">
+                Game 1
+              </div>
+              <div className="m-1 flex h-10 w-1/4 items-center justify-center rounded bg-pink-300">
+                Game 2
+              </div>
+              <div className="m-1 flex h-10 w-1/4 items-center justify-center rounded bg-pink-300">
+                Game 3
+              </div>
+
               {/* More game slots */}
             </div>
 
-            <div className="flex justify-between items-center mb-2 rounded bg-gray-800">
+            <div className="mb-2 flex items-center justify-between rounded bg-gray-800">
               <h3>Games Team 2</h3>
               <span className="text-sm">3/10</span>
             </div>
             {/* Placeholder for selected games for Team 2 */}
-            <div className="flex flex-wrap mb-4 p-2 rounded bg-gray-800">
+            <div className="mb-4 flex flex-wrap rounded bg-gray-800 p-2">
               {/* Mockup of game slots */}
-              <div className="w-1/4 h-10 bg-blue-300 m-1 rounded flex justify-center items-center">Game 1</div>
-              <div className="w-1/4 h-10 bg-blue-300 m-1 rounded flex justify-center items-center">Game 2</div>
-              <div className="w-1/4 h-10 bg-blue-300 m-1 rounded flex justify-center items-center">Game 3</div>
+              <div className="m-1 flex h-10 w-1/4 items-center justify-center rounded bg-blue-300">
+                Game 1
+              </div>
+              <div className="m-1 flex h-10 w-1/4 items-center justify-center rounded bg-blue-300">
+                Game 2
+              </div>
+              <div className="m-1 flex h-10 w-1/4 items-center justify-center rounded bg-blue-300">
+                Game 3
+              </div>
               {/* More game slots */}
             </div>
           </div>
 
           {/* Members list */}
-          <div className="flex-1 m-2">
-            <div className="bg-gray-800 p-2 rounded shadow">
+          <div className="m-2 flex-1">
+            <div className="rounded bg-gray-800 p-2 shadow">
               <h2 className="text-lg font-semibold">Team 1 Member list</h2>
               {/* Placeholder for Team 1 members */}
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 {/* Mockup list items */}
                 <li>Marcus</li>
                 <li>Kyle</li>
@@ -66,10 +79,10 @@ export function DraftMembersPage()
                 {/* More list items */}
               </ul>
             </div>
-            <div className="bg-gray-800 p-2 rounded shadow mt-4">
+            <div className="mt-4 rounded bg-gray-800 p-2 shadow">
               <h2 className="text-lg font-semibold">Team 2 Member list</h2>
               {/* Placeholder for Team 2 members */}
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 {/* Mockup list items */}
                 <li>Stephen</li>
                 <li>Jeffery</li>
@@ -84,10 +97,10 @@ export function DraftMembersPage()
 
       {/* Start button */}
       <div className="w-full p-80">
-        <button className="bg-yellow-400 hover:bg-yellow-500 text-white p-3 rounded w-30 mx-auto block">
+        <button className="w-30 mx-auto block rounded bg-yellow-400 p-3 text-white hover:bg-yellow-500">
           START
         </button>
       </div>
     </div>
   );
-};
+}
