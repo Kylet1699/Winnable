@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/lib/ui/tooltip";
+import { Minus } from "lucide-react";
 
 export function DraftMembersPage() {
   const navigate = useNavigate();
@@ -34,14 +35,25 @@ export function DraftMembersPage() {
       setLobby(lobbyState);
     },
   });
+  const [tooltip, setTooltip] = useState(false);
+  function handleTooltip(isOpen) {
+    if (
+      isOpen &&
+      (lobby.teamOne.members.length == 0 ||
+        lobby.teamTwo.members.length == 0 ||
+        user.id !== lobby.host)
+    ) {
+      setTooltip(true);
+      return;
+    }
+    setTooltip(false);
+  }
 
   function joinTeam(teamNumber) {
     ws.send(JSON.stringify({ event: "joinTeam", data: teamNumber }));
   }
 
   if (!lobby) return <div>Loading...</div>;
-
-  console.log(user);
 
   return (
     <div className="space-y-6">
@@ -54,7 +66,18 @@ export function DraftMembersPage() {
             <CardTitle>Team 1</CardTitle>
           </CardHeader>
           <CardContent>
-            <MemberList members={lobby.teamOne.members} />
+            <MemberList members={lobby.teamOne.members}>
+              {({ id, username }) => (
+                <div className="flex justify-between">
+                  <span>{username}</span>
+                  {lobby.host === user.id && lobby.host !== id && (
+                    <button>
+                      <Minus />
+                    </button>
+                  )}
+                </div>
+              )}
+            </MemberList>
           </CardContent>
           <CardFooter className="mt-auto self-center">
             <Button variant="team1" onClick={() => joinTeam(1)}>
@@ -64,26 +87,30 @@ export function DraftMembersPage() {
         </Card>
         <div className="flex flex-row items-center gap-2 [grid-area:btns] md:flex-col md:items-start">
           <Button>Randomize</Button>
-          <TooltipProvider
-            delayDuration={300}
-            disableHoverableContent={
-              user.id === lobby.host &&
-              lobby.teamOne.members.length >= 0 &&
-              lobby.teamTwo.members.length >= 0
-            }
-          >
-            <Tooltip>
-              <TooltipTrigger>
-                <Button disabled={user.id !== lobby.host}>Start Game</Button>
+          <TooltipProvider delayDuration={300}>
+            <Tooltip open={tooltip} onOpenChange={handleTooltip}>
+              <TooltipTrigger asChild tabIndex={0}>
+                <span>
+                  <Button
+                    className="md:w-full"
+                    disabled={
+                      user.id !== lobby.host ||
+                      lobby.teamOne.members.length === 0 ||
+                      lobby.teamTwo.members.length === 0
+                    }
+                  >
+                    Start Game
+                  </Button>
+                </span>
               </TooltipTrigger>
               <TooltipContent className="space-y-2">
                 {user.id !== lobby.host && (
                   <p>Only the host can start the game</p>
                 )}
-                {lobby.teamOne.members.length === 0 ||
-                  (lobby.teamTwo.members.length === 0 && (
-                    <p>Each team must have at least one player</p>
-                  ))}
+                {(lobby.teamOne.members.length === 0 ||
+                  lobby.teamTwo.members.length === 0) && (
+                  <p>Each team must have at least one player</p>
+                )}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -96,7 +123,18 @@ export function DraftMembersPage() {
             <CardTitle>Team 2</CardTitle>
           </CardHeader>
           <CardContent>
-            <MemberList members={lobby.teamTwo.members} />
+            <MemberList members={lobby.teamTwo.members}>
+              {({ id, username }) => (
+                <div className="flex justify-between">
+                  <span>{username}</span>
+                  {lobby.host === user.id && lobby.host !== id && (
+                    <button>
+                      <Minus />
+                    </button>
+                  )}
+                </div>
+              )}
+            </MemberList>
           </CardContent>
           <CardFooter className="mt-auto self-center">
             <Button variant="team2" onClick={() => joinTeam(2)}>
@@ -109,20 +147,13 @@ export function DraftMembersPage() {
   );
 }
 
-/** @param {{ members: {id: string, username: string}[] }} */
-function MemberList({ members }) {
+/** @param {{ members: {id: string, username: string}[], children: ({ id, username }: { id: string, username: string }) => React.ReactNode }} */
+function MemberList({ members, children }) {
   return (
     <ul className="max-h-80 space-y-2 overflow-y-auto">
-      {members.map(({ id, username }) => (
-        <li key={id}>
-          <Member name={username} />
-        </li>
+      {members.map((member) => (
+        <li key={member.id}>{children(member)}</li>
       ))}
     </ul>
   );
-}
-
-/** @param {{ name: string }} */
-function Member({ name }) {
-  return <div className="">{name}</div>;
 }
