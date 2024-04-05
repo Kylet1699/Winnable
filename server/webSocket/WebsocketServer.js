@@ -101,6 +101,24 @@ function startWebSocketServer(sessionParser, server) {
 
     broadcast(lobbyId);
   });
+
+  wss.on("kickPlayer", (userId, lobbyId, data) => {
+    const lobby = lobbies.get(lobbyId);
+
+    // Check if host is the one kicking the player
+    if (userId !== lobby.host.toString()) return;
+
+    const connection = connections.get(data);
+    const connectionToRemove = connection.filter(
+      (con) => con.lobbyId === lobbyId,
+    );
+    connectionToRemove.forEach(({ ws }) => {
+      ws.close();
+    });
+
+    broadcast(lobbyId);
+  });
+
   /* --------------- Main connection and event listener routing --------------- */
   wss.on("connection", async (ws, request) => {
     // All messages received from the lobbies go through here
@@ -114,8 +132,6 @@ function startWebSocketServer(sessionParser, server) {
     } else {
       connections.set(userId, [{ lobbyId, ws }]);
     }
-
-    console.log("on connect lobby", lobbies.get(lobbyId));
 
     // Check if the lobby state has been initialized
     if (!lobbies.get(lobbyId)) {
@@ -173,6 +189,9 @@ function startWebSocketServer(sessionParser, server) {
         case "joinTeam":
           wss.emit("joinTeam", ws, request.session.user, lobbyId, data);
           break;
+        case "kickPlayer":
+          wss.emit("kickPlayer", userId, lobbyId, data);
+          break;
         default:
           console.log("Unknown event: ", event);
       }
@@ -181,6 +200,8 @@ function startWebSocketServer(sessionParser, server) {
     ws.on("close", (code, message) => {
       console.log("User left lobby", userId, lobbyId);
       const connection = connections.get(userId);
+
+      if (!connection) return;
 
       const index = connection.findIndex((con) => con.ws === ws);
       connection.splice(index, 1);
@@ -232,7 +253,7 @@ function startWebSocketServer(sessionParser, server) {
         }
       }
 
-      if (connections.length === 0) {
+      if (connection.length === 0) {
         connections.delete(userId);
       }
 

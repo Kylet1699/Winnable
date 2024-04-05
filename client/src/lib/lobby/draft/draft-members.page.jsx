@@ -34,6 +34,9 @@ export function DraftMembersPage() {
       const lobbyState = JSON.parse(e.data);
       setLobby(lobbyState);
     },
+    onClose() {
+      navigate("/");
+    },
   });
   const [tooltip, setTooltip] = useState(false);
   function handleTooltip(isOpen) {
@@ -51,6 +54,10 @@ export function DraftMembersPage() {
 
   function joinTeam(teamNumber) {
     ws.send(JSON.stringify({ event: "joinTeam", data: teamNumber }));
+  }
+
+  function handleKick(id) {
+    ws.send(JSON.stringify({ event: "kickPlayer", data: id }));
   }
 
   if (!lobby) return <div>Loading...</div>;
@@ -71,7 +78,7 @@ export function DraftMembersPage() {
                 <div className="flex justify-between">
                   <span>{username}</span>
                   {lobby.host === user.id && lobby.host !== id && (
-                    <button>
+                    <button onClick={() => handleKick(id)}>
                       <Minus />
                     </button>
                   )}
@@ -128,7 +135,7 @@ export function DraftMembersPage() {
                 <div className="flex justify-between">
                   <span>{username}</span>
                   {lobby.host === user.id && lobby.host !== id && (
-                    <button>
+                    <button onClick={() => handleKick(id)}>
                       <Minus />
                     </button>
                   )}
