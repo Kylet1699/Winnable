@@ -9,6 +9,12 @@ import {
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useWebSocket } from "@/lib/websocket/useWebSocket";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/lib/ui/tooltip";
 
 export function DraftMembersPage() {
   const navigate = useNavigate();
@@ -35,6 +41,8 @@ export function DraftMembersPage() {
 
   if (!lobby) return <div>Loading...</div>;
 
+  console.log(user);
+
   return (
     <div className="space-y-6">
       <h1 className="text-center text-2xl font-bold ">
@@ -56,7 +64,29 @@ export function DraftMembersPage() {
         </Card>
         <div className="flex flex-row items-center gap-2 [grid-area:btns] md:flex-col md:items-start">
           <Button>Randomize</Button>
-          <Button>Start Game</Button>
+          <TooltipProvider
+            delayDuration={300}
+            disableHoverableContent={
+              user.id === lobby.host &&
+              lobby.teamOne.members.length >= 0 &&
+              lobby.teamTwo.members.length >= 0
+            }
+          >
+            <Tooltip>
+              <TooltipTrigger>
+                <Button disabled={user.id !== lobby.host}>Start Game</Button>
+              </TooltipTrigger>
+              <TooltipContent className="space-y-2">
+                {user.id !== lobby.host && (
+                  <p>Only the host can start the game</p>
+                )}
+                {lobby.teamOne.members.length === 0 ||
+                  (lobby.teamTwo.members.length === 0 && (
+                    <p>Each team must have at least one player</p>
+                  ))}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <Button variant="destructive" onClick={() => navigate("/")}>
             Leave Lobby
           </Button>
