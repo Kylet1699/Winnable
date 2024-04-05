@@ -115,8 +115,6 @@ function startWebSocketServer(sessionParser, server) {
     connectionToRemove.forEach(({ ws }) => {
       ws.close();
     });
-
-    broadcast(lobbyId);
   });
 
   /* --------------- Main connection and event listener routing --------------- */
