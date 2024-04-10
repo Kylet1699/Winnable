@@ -34,6 +34,7 @@ const sessionParser = session({
   store,
 });
 
+app.use(sessionParser);
 app.use(
   cors({
     origin:[process.env.FRONTEND_URL, process.env.REDIRECT_URI],
@@ -42,7 +43,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(sessionParser);
+
 
 app.use((req, res, next) => {
   // Attach user to req.session from mongo session store
@@ -70,7 +71,7 @@ app.use((req, res, next) => {
   // } else {
   //   next();
   // }
-  console.log('SUM DUMB MIDDLEWARE THAT I HATE ', req.session.id)
+  console.log('SUM MIDDLEWARE WITH SESS ID ', req.session.id)
   attachUser(req, res, next).catch(next)
 });
 

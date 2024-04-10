@@ -127,6 +127,31 @@ function Header() {
       console.error(error);
     }
   }
+
+  async function login() {
+    try {
+      const response = await fetch (loginUrl, {
+        method: "GET",
+        credentials: "include",
+      });
+      window.href = response.url;
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async function loginAsTest() {
+    try {
+      const response = await fetch (testLoginUrl, {
+        method: "GET",
+        credentials: "include",
+      });
+      console.log(response.user);
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <header className="flex justify-between">
       <div className="flex flex-col justify-center">
@@ -136,8 +161,10 @@ function Header() {
       
       {!user && (
         <div style={{ display: "flex", gap: "1rem" }}>
-          <Link to={testLoginUrl}>Login as Test User</Link>
-          <Link to={loginUrl}>Login</Link>
+          {/* <Link to={testLoginUrl}>Login as Test User</Link> */}
+          {/* <Link to={loginUrl}>Login</Link> */}
+          <Button onClick={() => loginAsTest()}>Login as Test User</Button>
+          <Button onClick={() => login()}>Login</Button>
         </div>
       )}
       {user && <UserDropdown name={user.username} signOut={handleSignout} />}
