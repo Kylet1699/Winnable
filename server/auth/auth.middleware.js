@@ -3,8 +3,9 @@ const { Session } = require('./Session.schema');
 
 async function attachUser (req, res, next){
   if (req.session.id) {
+    console.log("FETCHING MIDDLEWARE req.session.id", req.session.id);
     try {
-      const session = await Session.findById(req.session.id);
+      const session = await Session.findOne({_id: req.session.id});
       console.log('FOUND SESSION', session);
     } catch (error) {
       console.log('FETCHING MIDDLEWARE ERROR', error);
