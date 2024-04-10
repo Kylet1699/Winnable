@@ -33,11 +33,13 @@ async function callback(req, res) {
     console.log('POSTING REQ TO DISCORD');
     const response = await axios.post(`${API_ENDPOINT}/oauth2/token`, data, {
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      withCredentials: true,
     });
     console.log(response);
     // Access tokens expire every 7 days, then it will ask for re-authorization
     const user = await axios.get(`${API_ENDPOINT}/users/@me`, {
       headers: { Authorization: `Bearer ${response.data.access_token}` },
+      withCredentials: true,
     });
 
     console.log(user);
@@ -52,10 +54,10 @@ async function callback(req, res) {
     }
 
     req.session.user = { id: userLogin.id, username: userLogin.userName };
-
     console.log('callback req.session.user', req.session);
     console.log('callback req.session.id', req.session.id);
-    return res.redirect(process.env.FRONTEND_URL);
+    req.session.save();
+    res.redirect(process.env.FRONTEND_URL);
   } catch (error) {
     console.log('ERROR IN TOKEN EXCHANGE');
     console.log(error);
