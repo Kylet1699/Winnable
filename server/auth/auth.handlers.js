@@ -11,7 +11,7 @@ async function login(req, res) {
 async function loginTest(req, res) {
   const id = crypto.randomUUID();
   const username = 'testuser' + id;
-  req.winnable_session.user = { id: '66135c4e5e31aaefbe08130c', username: 'TestUser1' };
+  req.session.user = { id: '66135c4e5e31aaefbe08130c', username: 'TestUser1' };
   res.redirect(process.env.FRONTEND_URL);
 }
 
@@ -51,10 +51,10 @@ async function callback(req, res) {
       userLogin = await userHandlers.createUserByDiscordId(user.data.id, user.data.username);
     }
 
-    req.winnable_session.user = { id: userLogin.id, username: userLogin.userName };
+    req.session.user = { id: userLogin.id, username: userLogin.userName };
 
-    console.log('callback req.winnable_session.user', req.winnable_session);
-    console.log('callback req.winnable_session.id', req.winnable_session.id);
+    console.log('callback req.session.user', req.session);
+    console.log('callback req.session.id', req.session.id);
     return res.redirect(process.env.FRONTEND_URL);
   } catch (error) {
     console.log('ERROR IN TOKEN EXCHANGE');
@@ -105,15 +105,15 @@ async function revoke(access_token) {
 }
 
 async function authorize(req, res) {
-  console.log('authorize id issss IN AUTHORIZE FUNCTION', req.winnable_session.id);
-  if (!req.winnable_session.user) {
+  console.log('authorize id issss IN AUTHORIZE FUNCTION', req.session.id);
+  if (!req.session.user) {
     return res.json({ user: null, error: 'Not logged in' });
   }
-  res.json({ user: req.winnable_session.user });
+  res.json({ user: req.session.user });
 }
 
 async function logout(req, res) {
-  req.winnable_session.destroy();
+  req.session.destroy();
   res.json({ user: null });
 }
 
