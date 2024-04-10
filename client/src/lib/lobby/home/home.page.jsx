@@ -44,7 +44,10 @@ export function HomePage() {
         </div>
       )}
       {!user && (
-        <p className="text-center text-lg">Login to join or create a lobby</p>
+        <div className="flex flex-col justify-center">
+          <h1 className="font-logo text-center text-3xl">WINNABLE</h1>
+          <h3 className="text-xl text-center">Login with Discord and start your Game Decathlon with your friends!</h3>
+        </div>
       )}
     </section>
   );

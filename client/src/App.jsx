@@ -161,8 +161,8 @@ function Header() {
       
       {!user && (
         <div style={{ display: "flex", gap: "1rem" }}>
-          <Link to={testLoginUrl}>Login as Test User</Link>
-          <Link to={loginUrl}>Login</Link>
+          <Link to={testLoginUrl}><Button>Login as Test User</Button></Link>
+          <Link to={loginUrl}><Button>Login</Button></Link>
           {/* <Button onClick={() => loginAsTest()}>Login as Test User</Button>
           <Button onClick={() => login()}>Login</Button> */}
         </div>
