@@ -16,7 +16,6 @@ const { gameRoutes } = require('./gameApi/routes');
 
 // Store
 const { store } = require('./auth/constants');
-const { attachUser } = require('./auth/auth.middleware');
 
 const app = express();
 
@@ -34,7 +33,7 @@ const sessionParser = session({
 
 app.use(
   cors({
-    origin: "*",
+    origin:[process.env.FRONTEND_URL, process.env.REDIRECT_URI],
     credentials: true,
   })
 );
