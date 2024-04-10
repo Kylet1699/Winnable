@@ -8,7 +8,7 @@ async function createLobby(req, res) {
     let newLobby = new Lobby(req.body);
     newLobby.dateCreated = Date.now();
     newLobby.lastUpdated = Date.now();
-    const hostUser = await User.findById(req.session.user.id);
+    const hostUser = await User.findById(req.winnable_session.user.id);
     newLobby.host = hostUser._id;
 
     const savedLobby = await newLobby.save();

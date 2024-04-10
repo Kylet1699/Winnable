@@ -45,24 +45,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(sessionParser);
 
 app.use((req, res, next) => {
-  // Attach user to req.session from mongo session store
-  // console.log('FETCHING MIDDLEWARE req.session.id', req.session.id);
-  // if (req.session.id) {
+  // Attach user to req.winnable_session from mongo session store
+  // console.log('FETCHING MIDDLEWARE req.winnable_session.id', req.winnable_session.id);
+  // if (req.winnable_session.id) {
   //   try {
-  //     const session = await Session.findById(req.session.id);
+  //     const session = await Session.findById(req.winnable_session.id);
   //     console.log(session);
   //   } catch (error) {
   //     console.log('FETCHING MIDDLEWARE ERROR', error);
   //   }
   //   next();
-  //   store.get(req.session.id, (error, session) => {
+  //   store.get(req.winnable_session.id, (error, session) => {
   //     console.log('FETCHING MIDDLEWARE session', session);
   //     if (session) {
-  //       console.log('SESSION FOUND with id', req.session.id);
-  //       req.session.user = session.user;
+  //       console.log('SESSION FOUND with id', req.winnable_session.id);
+  //       req.winnable_session.user = session.user;
   //     } else {
-  //       console.log('NO SESSION FOUND with id', req.session.id);
-  //       // req.session.user = { id: "65fa33d0b39ee489c2a0ad79", username:"juantootree4"};
+  //       console.log('NO SESSION FOUND with id', req.winnable_session.id);
+  //       // req.winnable_session.user = { id: "65fa33d0b39ee489c2a0ad79", username:"juantootree4"};
   //       if (error) console.log('FETCHING MIDDLEWARE ERROR', error);
   //     }
   //     next();
@@ -70,6 +70,7 @@ app.use((req, res, next) => {
   // } else {
   //   next();
   // }
+  console.log('SUM DUMB MIDDLEWARE THAT I HATE ', req.winnable_session.id)
   attachUser(req, res, next).catch(next)
 });
 
