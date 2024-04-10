@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
+const { Session } = require('./auth/Session.schema');
 const http = require('http');
 const WebSocket = require('ws');
 const startWebSocketServer = require('./webSocket/WebsocketServer');
@@ -44,17 +45,23 @@ app.use((req, res, next) => {
   // Attach user to req.session from mongo session store
   console.log('FETCHING MIDDLEWARE req.session.id', req.session.id);
   if (req.session.id) {
-    store.get(req.session.id, (error, session) => {
-      
-      if (session) {
-        console.log('FETCHING MIDDLEWARE session', session);
-        req.session.user = session.user;
-      } else {
-        req.session.user = { id: "65fa33d0b39ee489c2a0ad79", username:"juantootree4"};
-        if (error) console.log('FETCHING MIDDLEWARE ERROR', error);
-      }
-      next();
-    });
+    try {
+      const session = Session.findById(req.session.id);
+      console.log(session);
+    } catch (error) {
+      console.log('FETCHING MIDDLEWARE ERROR', error);
+    }
+    next();
+    // store.get(req.session.id, (error, session) => {
+    //   if (session) {
+    //     console.log('FETCHING MIDDLEWARE session', session);
+    //     req.session.user = session.user;
+    //   } else {
+    //     req.session.user = { id: "65fa33d0b39ee489c2a0ad79", username:"juantootree4"};
+    //     if (error) console.log('FETCHING MIDDLEWARE ERROR', error);
+    //   }
+    //   next();
+    // });
   } else {
     next();
   }
