@@ -116,15 +116,12 @@ function Header() {
   const testLoginUrl = `${SERVER_URL}/api/auth/login-test`;
   const { user } = useLoaderData();
   const revalidator = useRevalidator();
-  const navigate = useNavigate();
   async function handleSignout() {
     try {
-      const response = await fetch(`${SERVER_URL}/api/auth/logout`, {
+      await fetch(`${SERVER_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
-      console.log(response);
-      navigate('/');
       revalidator.revalidate();
     } catch (error) {
       console.error(error);
