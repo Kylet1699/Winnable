@@ -130,7 +130,7 @@ export function DraftMembersPage() {
           </CardFooter>
         </Card>
         <div className="flex flex-row items-center gap-2 [grid-area:btns] md:flex-col md:items-start">
-          <Button>Randomize</Button>
+          {/* <Button>Randomize</Button> */}
           <TooltipProvider delayDuration={300}>
             <Tooltip open={tooltip} onOpenChange={handleTooltip}>
               <TooltipTrigger asChild tabIndex={0}>
