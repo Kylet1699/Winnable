@@ -3,11 +3,11 @@ import { SERVER_URL } from "/src/lib/common/constants.js";
 export async function fetchUser() {
   try {
     const response = await fetch(SERVER_URL + "/api/auth/authorize", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "getSetCookie": "true",
-      },
+      // method: "GET",
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   "getSetCookie": "true",
+      // },
       credentials: "include",
     });
     if (!response.ok) {
