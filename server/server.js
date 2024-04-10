@@ -33,7 +33,7 @@ const sessionParser = session({
 
 app.use(
   cors({
-    origin:[process.env.FRONTEND_URL, process.env.REDIRECT_URI],
+    origin:process.env.FRONTEND_URL,
     credentials: true,
   })
 );
