@@ -32,12 +32,12 @@ async function callback(req, res) {
     });
     console.log('POSTING REQ TO DISCORD');
     const response = await axios.post(`${API_ENDPOINT}/oauth2/token`, data, {
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { 'content-type': 'application/x-www-form-urlencoded',  withCredentials: true },
     });
     console.log(response);
     // Access tokens expire every 7 days, then it will ask for re-authorization
     const user = await axios.get(`${API_ENDPOINT}/users/@me`, {
-      headers: { Authorization: `Bearer ${response.data.access_token}` },
+      headers: { Authorization: `Bearer ${response.data.access_token}`, withCredentials: true },
     });
 
     console.log(user);
