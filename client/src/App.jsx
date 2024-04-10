@@ -16,7 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/lib/ui/dropdown-menu";
-import { useLoaderData, useRevalidator } from "react-router-dom";
+import { useLoaderData, useRevalidator, useNavigate } from "react-router-dom";
 import {
   initializeWebSocket,
   // sendMessage,
@@ -116,13 +116,15 @@ function Header() {
   const testLoginUrl = `${SERVER_URL}/api/auth/login-test`;
   const { user } = useLoaderData();
   const revalidator = useRevalidator();
+  const navigate = useNavigate();
   async function handleSignout() {
     try {
-      await fetch(`${SERVER_URL}/api/auth/logout`, {
+      const response = await fetch(`${SERVER_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
-
+      console.log(response);
+      navigate('/');
       revalidator.revalidate();
     } catch (error) {
       console.error(error);
