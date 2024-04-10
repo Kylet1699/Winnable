@@ -16,6 +16,7 @@ const { gameRoutes } = require('./gameApi/routes');
 
 // Store
 const { store } = require('./auth/constants');
+const { attachUser } = require('./auth/auth.middleware');
 
 const app = express();
 
@@ -43,28 +44,31 @@ app.use(sessionParser);
 
 app.use((req, res, next) => {
   // Attach user to req.session from mongo session store
-  console.log('FETCHING MIDDLEWARE req.session.id', req.session.id);
-  if (req.session.id) {
-    // try {
-    //   const session = Session.findById(req.session.id);
-    //   console.log(session);
-    // } catch (error) {
-    //   console.log('FETCHING MIDDLEWARE ERROR', error);
-    // }
-    // next();
-    store.get(req.session.id, (error, session) => {
-      if (session) {
-        console.log('FETCHING MIDDLEWARE session', session);
-        req.session.user = session.user;
-      } else {
-        req.session.user = { id: "65fa33d0b39ee489c2a0ad79", username:"juantootree4"};
-        if (error) console.log('FETCHING MIDDLEWARE ERROR', error);
-      }
-      next();
-    });
-  } else {
-    next();
-  }
+  // console.log('FETCHING MIDDLEWARE req.session.id', req.session.id);
+  // if (req.session.id) {
+  //   try {
+  //     const session = await Session.findById(req.session.id);
+  //     console.log(session);
+  //   } catch (error) {
+  //     console.log('FETCHING MIDDLEWARE ERROR', error);
+  //   }
+  //   next();
+  //   store.get(req.session.id, (error, session) => {
+  //     console.log('FETCHING MIDDLEWARE session', session);
+  //     if (session) {
+  //       console.log('SESSION FOUND with id', req.session.id);
+  //       req.session.user = session.user;
+  //     } else {
+  //       console.log('NO SESSION FOUND with id', req.session.id);
+  //       // req.session.user = { id: "65fa33d0b39ee489c2a0ad79", username:"juantootree4"};
+  //       if (error) console.log('FETCHING MIDDLEWARE ERROR', error);
+  //     }
+  //     next();
+  //   });
+  // } else {
+  //   next();
+  // }
+  attachUser(req, res, next).catch(next)
 });
 
 const server = http.createServer(app);

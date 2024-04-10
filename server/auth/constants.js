@@ -5,6 +5,7 @@ const store = new MongoStore({
   mongoUrl: process.env.MONGODB_CONNECTION_STRING,
   ttl: 60 * 60 * 24, // prune expired entries every 24h, time in seconds
   autoremove: "native",
+  stringify: false,
 });
 
 module.exports = { store };

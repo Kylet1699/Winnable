@@ -1,4 +1,18 @@
 const { Lobby } = require('../api/Lobby/Lobby.schema');
+const { Session } = require('./Session.schema');
+
+async function attachUser (req, res, next){
+  if (req.session.id) {
+    try {
+      const session = await Session.findById(req.session.id);
+      console.log('FOUND SESSION', session);
+    } catch (error) {
+      console.log('FETCHING MIDDLEWARE ERROR', error);
+    }
+  }
+  next();
+}
+
 const requireLogin = (req, res, next) => {
   if (!req.session.user) {
     return res.status(401).send('Unauthorized');
@@ -26,4 +40,4 @@ const requireHost = async (req, res, next) => {
   }
 }
 
-module.exports = { requireLogin, requireSameUser, requireHost };
+module.exports = { requireLogin, requireSameUser, requireHost, attachUser };
