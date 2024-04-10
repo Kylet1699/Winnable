@@ -30,7 +30,7 @@ const sessionParser = session({
   resave: false,
   saveUninitialized: false,
   // unset: 'destroy',
-  cookie: { httpOnly: false, secure: true, sameSite: 'none', maxAge: 86400000, domain: 'https://winnable.vercel.app/' }, // not sure if should set to destroy
+  cookie: { httpOnly: false, secure: true, sameSite: 'none', maxAge: 86400000, domain: 'https://winnable-hfythhryta-uw.a.run.app' }, // not sure if should set to destroy
   store,
 });
 
