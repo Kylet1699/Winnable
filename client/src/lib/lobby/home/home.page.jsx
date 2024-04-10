@@ -46,7 +46,7 @@ export function HomePage() {
       {!user && (
         <div className="flex flex-col justify-center mt-20 gap-y-1">
           <h1 className="font-logo text-center text-6xl">WINNABLE</h1>
-          <h3 className="text-xl text-center">Login with Discord and start your Game Decathlon with your friends!</h3>
+          <h3 className="text-xl text-center">Login with Discord and start your Game Decathlon with friends!</h3>
         </div>
       )}
     </section>
