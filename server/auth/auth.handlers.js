@@ -10,9 +10,7 @@ async function login(req, res) {
 }
 
 async function loginTest(req, res) {
-  const id = crypto.randomUUID();
-  const username = 'testuser' + id;
-  req.session.user = { id: '66135c4e5e31aaefbe08130c', username: 'TestUser1' };
+  if (!req.session.user) req.session.user = { id: '66135c4e5e31aaefbe08130c', username: 'TestUser1' };
   res.redirect(process.env.FRONTEND_URL);
   // res.json({ user: req.session.user });
 }
