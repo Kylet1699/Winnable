@@ -37,14 +37,14 @@ const sessionParser = session({
 app.use(sessionParser);
 app.use(
   cors({
-    origin:[process.env.FRONTEND_URL, process.env.REDIRECT_URI],
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use('trust proxy', 1);
 app.use((req, res, next) => {
   // Attach user to req.session from mongo session store
   // console.log('FETCHING MIDDLEWARE req.session.id', req.session.id);
