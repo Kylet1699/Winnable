@@ -5,16 +5,16 @@ const userHandlers = require('../api/User/User.handlers');
 // Redirect to Discord OAuth2 /api/auth/login
 async function login(req, res) {
   console.log(process.env.REDIRECT_URI);
-  res.json({ url: process.env.REDIRECT_URI });
-  // res.redirect(process.env.REDIRECT_URI);
+  // res.json({ url: process.env.REDIRECT_URI });
+  res.redirect(process.env.REDIRECT_URI);
 }
 
 async function loginTest(req, res) {
   const id = crypto.randomUUID();
   const username = 'testuser' + id;
   req.session.user = { id: '66135c4e5e31aaefbe08130c', username: 'TestUser1' };
-  // res.redirect(process.env.FRONTEND_URL);
-  res.json({ user: req.session.user });
+  res.redirect(process.env.FRONTEND_URL);
+  // res.json({ user: req.session.user });
 }
 
 // Access token exchange
