@@ -7,7 +7,7 @@ async function attachUser (req, res, next){
     try {
       const session = await Session.findOne({_id: req.session.id});
       console.log('FOUND SESSION', session);
-      res.json({ wazaa: session })
+      // res.json({ wazaa: session })
     } catch (error) {
       console.log('FETCHING MIDDLEWARE ERROR', error);
     }
